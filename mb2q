@@ -586,6 +586,8 @@ class quilter(object):
                 fd.write(fname + '\n')
 
     def needs_sob(self, pmsg):
+        if self.args.no_sob:
+            return False
         last = pmsg.tags.get('Signed-off-by', mailaddrs()).get_last()
         if not last:
             return True
@@ -839,6 +841,8 @@ if __name__ == '__main__':
                         help='Collect all CCs from mail header')
     parser.add_argument('--storeonly', action='store_true',
                         help='Store mails without analysing them')
+    parser.add_argument('--no-sob', action='store_true',
+                        help='Do not add Signed-off-by')
     parser.add_argument('--version', action='version',
                         version='%%(prog)s %s'%version)
     args = parser.parse_args()
